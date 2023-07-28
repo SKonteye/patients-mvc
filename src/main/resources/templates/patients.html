@@ -9,13 +9,19 @@
     <div class="container">
         <div class="card">
             <div class="card-header d-flex justify-content-center">Liste des Patients</div>
-                <div class="card-body"><table class="table">
+                <div class="card-body">
+                    <form method="get" th:action="@{index}">
+                        <label class="me-1">Key word</label>
+                        <input type="text" name="keyword" th:value="${keyword}">
+                        <button class="btn btn-primary" type="submit"> Chercher</button>
+                    </form>
+                    <table class="table">
                 <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Date</th>
-                    <th>Ill</th>
+                    <th>Sick</th>
                     <th>Score</th>
                 </tr>
                 </thead>
@@ -26,14 +32,18 @@
                     <td th:text="${p.date}"></td>
                     <td th:text="${p.malade}"></td>
                     <td th:text="${p.score}"></td>
+                    <td>
+                        <a onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger" th:href="@{delete(id=${p.id},keyword=${keyword},page=${currentPage})}">Delete</a>
+                    </td>
                 </tr>
+
                 </tbody>
             </table>
                     <ul class="nav nav-pills">
                         <li th:each="page,status:${pages}">
-                            <a th:class="${status.index==currentPage?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
+                            <a th:class="${status.index==currentPage?'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
                                th:text="${status.index}"
-                               th:href="@{index(page=${status.index})}"
+                               th:href="@{index(page=${status.index}, keyword=${keyword})}"
                             >
                             </a>
                         </li>
