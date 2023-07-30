@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="webjars/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header d-flex justify-content-center">Liste des Patients</div>
+    <div layout:fragment="content1">
+        <div class="container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-center">Liste des Patients</div>
                 <div class="card-body">
                     <form method="get" th:action="@{index}">
                         <label class="me-1">Key word</label>
@@ -16,29 +19,32 @@
                         <button class="btn btn-primary" type="submit"> Chercher</button>
                     </form>
                     <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Sick</th>
-                    <th>Score</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="p:${listepatients}">
-                    <td th:text="${p.id}"></td>
-                    <td th:text="${p.name}"></td>
-                    <td th:text="${p.date}"></td>
-                    <td th:text="${p.malade}"></td>
-                    <td th:text="${p.score}"></td>
-                    <td>
-                        <a onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger" th:href="@{delete(id=${p.id},keyword=${keyword},page=${currentPage})}">Delete</a>
-                    </td>
-                </tr>
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Sick</th>
+                            <th>Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="p:${listepatients}">
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.name}"></td>
+                            <td th:text="${p.date}"></td>
+                            <td th:text="${p.malade}"></td>
+                            <td th:text="${p.score}"></td>
+                            <td>
+                                <a onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger" th:href="@{delete(id=${p.id},keyword=${keyword},page=${currentPage})}">Delete</a>
+                            </td>
+                            <td>
+                                <a class="btn bg-success" th:href="@{editPatient(id=${p.id},keyword=${keyword},page=${currentPage})}">Edit</a>
+                            </td>
+                        </tr>
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
                     <ul class="nav nav-pills">
                         <li th:each="page,status:${pages}">
                             <a th:class="${status.index==currentPage?'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
@@ -48,6 +54,7 @@
                             </a>
                         </li>
                     </ul>
+                </div>
             </div>
         </div>
     </div>
